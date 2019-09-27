@@ -32,7 +32,7 @@ resource "aws_iam_policy" "al_cloudtrail_iam_policy" {
   "Statement": [
     {
       "Sid": "S3AuditLoggingAndLogCollection1",
-      "Resource": "${coalesce(join("", aws_s3_bucket.al_cloudtrail_s3_bucket.*.arn), var.use_existing_s3_bucket_arn)}",
+      "Resource": "${coalesce(join("", aws_s3_bucket.al_cloudtrail_s3_bucket.*.arn), var.use_existing_s3_bucket_arn)}/*",
       "Effect": "Allow",
       "Action": [
           "s3:GetObject"
@@ -40,7 +40,7 @@ resource "aws_iam_policy" "al_cloudtrail_iam_policy" {
       },
     {
       "Sid": "S3AuditLoggingAndLogCollection2",
-      "Resource":  "${coalesce(join("", aws_s3_bucket.al_cloudtrail_s3_bucket.*.arn), var.use_existing_s3_bucket_arn)}",
+      "Resource":  "${coalesce(join("", aws_s3_bucket.al_cloudtrail_s3_bucket.*.arn), var.use_existing_s3_bucket_arn)}/*",
       "Effect": "Allow",
       "Action": [
           "s3:ListBucket"
