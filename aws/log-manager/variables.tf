@@ -78,6 +78,6 @@ variable "create_cloud_trail_sns_topic" {
 }
 
 variable "cloud_trail_enabled" {
-  description = "Set to false to prevent the module from creating any resources"
+  description = "Set to false to prevent module from create new Cloud Trail resource"
   default     = false
 }
