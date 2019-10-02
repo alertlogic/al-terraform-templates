@@ -53,15 +53,14 @@ variable "cloud_trail_enabled" {
 ```
 
 ## How to Use
-
+#### Please Note: The following template only compatible with terraform 0.11.14
 1. Clone repository to workspace
 2. Change and assign variables as required
 3. Run the following Terraform command in a Bash shell
 
-   ```terraform init
+   ```
+      terraform init
       terraform fmt
       terraform plan -var-file=vars.tfvars
       terraform apply -var-file=vars.tfvars
    ```
-
-
