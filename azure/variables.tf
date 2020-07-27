@@ -1,10 +1,11 @@
 /* Configure Azure Provider and declare all the Variables that will be used in Terraform configurations */
 provider "azurerm" {
-  subscription_id = "${var.subscription_id}"
-  client_id 		  = "${var.client_id}"
-  client_secret 	= "${var.client_secret}"
-  tenant_id 		  = "${var.tenant_id}"
-  version         = "~> 1.10.0"
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+  version         = "~> 2.20.0"
+  features {}
 }
 
 variable "subscription_id" {
@@ -28,7 +29,7 @@ variable "resource_group_name" {
 }
 
 variable "location" {
-description = "The location/region where the virtual network resides."
+  description = "The location/region where the virtual network resides."
 }
 
 variable "storage_account_name" {
@@ -47,7 +48,7 @@ variable "virtual_network_name" {
   description = "Name of an existing Virtual Network where Threat Manager will be deployed in."
 }
 
-variable "virtual_netwokr_address_space" {
+variable "virtual_network_address_space" {
   description = "Address space in CIDR notation of the existing virtual network where agents will be deployed."
 }
 
@@ -57,8 +58,8 @@ variable "subnet_name" {
 
 variable "vm_size" {
   description = "Select the size of your Threat Manager virtual machine. Allowed values: Standard_A3, Standard_A4."
-  type 				= "string"
-  default 		= "Standard_A3"
+  type        = string
+  default     = "Standard_A3"
 }
 
 variable "os_type" {
@@ -73,7 +74,7 @@ variable "admin_username" {
 
 variable "admin_password" {
   description = "Local administrator password. Do not change the default value. Alert Logic don't use these credentials, is only required by Azure when creating new VM."
-  default 		= "P@ssw0rd12345"
+  default     = "P@ssw0rd12345"
 }
 
 variable "alertlogicIPRange1" {

@@ -36,7 +36,7 @@ Variables
   * resource_group_name : Name of an existing resource group containing your virtual network
   * location : The Azure Region to provision the new Threat Manager VM in, i.e. West US
   * virtual_network_name : The name of a virtual network to deploy the Threat Manager VM in
-  * virtual_netwokr_address_space : CIDR notation of the existing virtual network where agents will be deployed in
+  * virtual_network_address_space : CIDR notation of the existing virtual network where agents will be deployed in
   * availability_set_name : The name of the Availability Set in which to create the Threat Manager VM in
   * subnet_name : The name of an existing subnet within your selected virtual network
   * storage_account_name : Name of an existing storage account where the Threat Manager vhd image was copied to

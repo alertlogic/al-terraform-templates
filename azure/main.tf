@@ -26,16 +26,16 @@ You must copy the Alert Logic Threat Manager vhd image to a new or existing stor
  */
 
 resource "azurerm_public_ip" "tm_vm_pip" {
-   name                         = "${var.vm_name}-PIP"
-   location                     = "${var.location}"
-   resource_group_name          = "${var.resource_group_name}"
-   public_ip_address_allocation = "static"
+  name                = "${var.vm_name}-PIP"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
 }
 
 resource "azurerm_network_security_group" "tm_vm_nsg" {
   name                = "${var.vm_name}-NSG"
-  resource_group_name = "${var.resource_group_name}"
-  location            = "${var.location}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
   security_rule {
     name                       = "allow_agent_network_transport"
@@ -46,7 +46,7 @@ resource "azurerm_network_security_group" "tm_vm_nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "7777"
-    source_address_prefix      = "${var.virtual_netwokr_address_space}"
+    source_address_prefix      = var.virtual_network_address_space
     destination_address_prefix = "*"
   }
 
@@ -59,63 +59,11 @@ resource "azurerm_network_security_group" "tm_vm_nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "443"
-    source_address_prefix      = "${var.virtual_netwokr_address_space}"
+    source_address_prefix      = var.virtual_network_address_space
     destination_address_prefix = "*"
   }
 
-  // security_rule {
-  //   name                       = "web-app-ids-rule-1"
-  //   description                = "Appliance user interface for managing websites"
-  //   priority                   = 2020
-  //   direction                  = "Inbound"
-  //   access                     = "Allow"
-  //   protocol                   = "Tcp"
-  //   source_port_range          = "*"
-  //   destination_port_range     = "4849"
-  //   source_address_prefix      = "${var.alertlogicIPRange1}"
-  //   destination_address_prefix = "*"
-  // }
-  //
-  // security_rule {
-  //   name                       = "web-app-ids-rule-2"
-  //   description                = "Appliance user interface for managing websites"
-  //   priority                   = 2030
-  //   direction                  = "Inbound"
-  //   access                     = "Allow"
-  //   protocol                   = "Tcp"
-  //   source_port_range          = "*"
-  //   destination_port_range     = "4849"
-  //   source_address_prefix      = "${var.alertlogicIPRange2}"
-  //   destination_address_prefix = "*"
-  // }
-  //
-  // security_rule {
-  //   name                       = "web-app-ids-rule-3"
-  //   description                = "Appliance user interface for managing websites"
-  //   priority                   = 2040
-  //   direction                  = "Inbound"
-  //   access                     = "Allow"
-  //   protocol                   = "Tcp"
-  //   source_port_range          = "*"
-  //   destination_port_range     = "4849"
-  //   source_address_prefix      = "${var.alertlogicIPRange3}"
-  //   destination_address_prefix = "*"
-  // }
-  //
-  // security_rule {
-  //   name                       = "web-app-ids-rule-4"
-  //   description                = "Appliance user interface for managing websites"
-  //   priority                   = 2050
-  //   direction                  = "Inbound"
-  //   access                     = "Allow"
-  //   protocol                   = "Tcp"
-  //   source_port_range          = "*"
-  //   destination_port_range     = "4849"
-  //   source_address_prefix      = "${var.alertlogicIPRange4}"
-  //   destination_address_prefix = "*"
-  // }
-
-security_rule {
+  security_rule {
     name                       = "update-rule-1"
     description                = "Allow HTTPs for updates"
     priority                   = 2100
@@ -125,7 +73,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "443"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange1}"
+    destination_address_prefix = var.alertlogicIPRange1
   }
 
   security_rule {
@@ -138,7 +86,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "443"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange2}"
+    destination_address_prefix = var.alertlogicIPRange2
   }
 
   security_rule {
@@ -151,7 +99,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "443"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange3}"
+    destination_address_prefix = var.alertlogicIPRange3
   }
 
   security_rule {
@@ -164,7 +112,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "443"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange4}"
+    destination_address_prefix = var.alertlogicIPRange4
   }
 
   security_rule {
@@ -177,7 +125,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "4138"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange1}"
+    destination_address_prefix = var.alertlogicIPRange1
   }
 
   security_rule {
@@ -190,7 +138,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "4138"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange2}"
+    destination_address_prefix = var.alertlogicIPRange2
   }
 
   security_rule {
@@ -203,7 +151,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "4138"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange3}"
+    destination_address_prefix = var.alertlogicIPRange3
   }
 
   security_rule {
@@ -216,7 +164,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "4138"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange4}"
+    destination_address_prefix = var.alertlogicIPRange4
   }
 
   security_rule {
@@ -255,7 +203,7 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "123"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange2}"
+    destination_address_prefix = var.alertlogicIPRange2
   }
 
   security_rule {
@@ -268,38 +216,42 @@ security_rule {
     source_port_range          = "*"
     destination_port_range     = "123"
     source_address_prefix      = "*"
-    destination_address_prefix = "${var.alertlogicIPRange3}"
+    destination_address_prefix = var.alertlogicIPRange3
   }
 }
 
 resource "azurerm_availability_set" "tm_availability_set" {
   name                = "${var.vm_name}-AvailabilitySet1"
-  location            = "${var.location}"
-  resource_group_name = "${var.resource_group_name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
   managed             = true
 }
 
 resource "azurerm_network_interface" "tm_vm_ni" {
-  name                      = "${var.vm_name}-VirtNic"
-  location                  = "${var.location}"
-  resource_group_name       = "${var.resource_group_name}"
-  network_security_group_id = "${azurerm_network_security_group.tm_vm_nsg.id}"
+  name                = "${var.vm_name}-VirtNic"
+  location            = var.location
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = "${var.vm_name}-ipconfig"
     subnet_id                     = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/${var.subnet_name}"
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = "${azurerm_public_ip.tm_vm_pip.id}"
+    public_ip_address_id          = azurerm_public_ip.tm_vm_pip.id
   }
+}
+
+resource "azurerm_network_interface_security_group_association" "tm_ni_sg_association" {
+  network_interface_id      = azurerm_network_interface.tm_vm_ni.id
+  network_security_group_id = azurerm_network_security_group.tm_vm_nsg.id
 }
 
 resource "azurerm_image" "tm_vm_image" {
   name                = "${var.vm_name}-image"
-  location            = "${var.location}"
-  resource_group_name = "${var.resource_group_name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
 
   os_disk {
-    os_type  = "${var.os_type}"
+    os_type  = var.os_type
     os_state = "Generalized"
     blob_uri = "http://${var.storage_account_name}.blob.core.windows.net/${var.blob_container_name}/al-tmc-image_latest.vhd"
     size_gb  = 100
@@ -307,16 +259,16 @@ resource "azurerm_image" "tm_vm_image" {
 }
 
 resource "azurerm_virtual_machine" "tm_vm" {
-  name                  = "${var.vm_name}"
-  location              = "${var.location}"
-  resource_group_name   = "${var.resource_group_name}"
-  vm_size               = "${var.vm_size}"
-  network_interface_ids = ["${azurerm_network_interface.tm_vm_ni.id}"]
-  availability_set_id   = "${azurerm_availability_set.tm_availability_set.id}"
+  name                          = var.vm_name
+  location                      = var.location
+  resource_group_name           = var.resource_group_name
+  vm_size                       = var.vm_size
+  network_interface_ids         = [azurerm_network_interface.tm_vm_ni.id]
+  availability_set_id           = azurerm_availability_set.tm_availability_set.id
   delete_os_disk_on_termination = true
 
   storage_image_reference {
-    id = "${azurerm_image.tm_vm_image.id}"
+    id = azurerm_image.tm_vm_image.id
   }
 
   storage_os_disk {
@@ -327,9 +279,9 @@ resource "azurerm_virtual_machine" "tm_vm" {
   }
 
   os_profile {
-    computer_name  = "${var.vm_name}"
-    admin_username = "${var.admin_username}"
-    admin_password = "${var.admin_password}"
+    computer_name  = var.vm_name
+    admin_username = var.admin_username
+    admin_password = var.admin_password
   }
 
   os_profile_linux_config {
