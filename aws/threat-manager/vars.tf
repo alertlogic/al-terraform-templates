@@ -1,9 +1,9 @@
 # Specify the provider and access details below
 
 provider "aws" {
-  region     = "${var.aws_region}"
-  access_key = "${var.aws_access_key_id}"
-  secret_key = "${var.aws_secret_access_key}"
+  region     = var.aws_region
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
   version    = "~> 1.6"
 }
 
@@ -52,11 +52,13 @@ variable "monitoring_cidr" {
 
 variable "create_eip" {
   description = "Set value to 1(true) if you want to deploy it on public subnet, otherwise set to 0(false)"
+  type        = number
 }
 
 variable "alertlogic_enabled" {
   description = "Set value to 1(true) if you want to deploy alertlogic tmc instance, otherwise set to 0(false)"
-  default     = "1"
+  type        = number
+  default     = 1
 }
 
 # Latest AMI as per Mar 2018, contact AlertLogic (support@alertlogic.com) if you want to see the latest AMI per region

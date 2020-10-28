@@ -5,11 +5,11 @@ data "aws_region" "current" {}
 resource "aws_security_group" "tmc_sg" {
   name = "Alert Logic Threat Manager Security Group"
 
-  tags {
+  tags = {
     Name = "Alert Logic Threat Manager Security Group"
   }
 
-  vpc_id = "${var.vpc_id}"
+  vpc_id = var.vpc_id
 
   // pwaf ingress rules (uncomment to apply rules)
   /*
@@ -34,21 +34,21 @@ resource "aws_security_group" "tmc_sg" {
       */
   ingress {
     protocol    = "tcp"
-    cidr_blocks = ["${var.monitoring_cidr}"]
+    cidr_blocks = [var.monitoring_cidr]
     from_port   = 7777
     to_port     = 7777
   }
 
   ingress {
     protocol    = "tcp"
-    cidr_blocks = ["${var.monitoring_cidr}"]
+    cidr_blocks = [var.monitoring_cidr]
     from_port   = 443
     to_port     = 443
   }
 
   ingress {
     protocol    = "tcp"
-    cidr_blocks = ["${var.claim_cidr}"]
+    cidr_blocks = [var.claim_cidr]
     from_port   = 80
     to_port     = 80
   }
@@ -140,23 +140,23 @@ resource "aws_security_group" "tmc_sg" {
 
 // Launch a Threat Manager instance from a shared AMI
 resource "aws_instance" "tmc" {
-  depends_on             = ["aws_security_group.tmc_sg"]
-  count                  = "${var.alertlogic_enabled == 1 ? 1 : 0}"
-  ami                    = "${lookup(var.aws_amis, data.aws_region.current.name)}"
-  instance_type          = "${var.instance_type}"
-  subnet_id              = "${var.subnet_id}"
-  vpc_security_group_ids = ["${aws_security_group.tmc_sg.id}"]
+  depends_on             = [aws_security_group.tmc_sg]
+  count                  = var.alertlogic_enabled == 1 ? 1 : 0
+  ami                    = lookup(var.aws_amis, data.aws_region.current.name)
+  instance_type          = var.instance_type
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = [aws_security_group.tmc_sg.id]
 
-  tags {
-    Name = "${var.tag_name}"
-    env  = "${var.tag_env}"
+  tags = {
+    Name = var.tag_name
+    env  = var.tag_env
   }
 }
 
 // Allocate a new Elastic IP to be associated with the new Threat Manager instance
 resource "aws_eip" "tmc" {
-  depends_on = ["aws_instance.tmc"]
-  count      = "${var.alertlogic_enabled == 1 ? var.create_eip : 0}"
-  instance   = "${aws_instance.tmc.id}"
+  depends_on = [aws_instance.tmc]
+  count      = var.alertlogic_enabled == 1 ? var.create_eip : 0
+  instance   = aws_instance.tmc[0].id
   vpc        = true
 }
